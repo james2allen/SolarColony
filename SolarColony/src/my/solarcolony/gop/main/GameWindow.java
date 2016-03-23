@@ -12,8 +12,9 @@ import javax.swing.JPanel;
  * GameWindow sets up the main game window
  */
 public class GameWindow extends JFrame {
+	private JPanel panel1 = new JPanel();  // main panel of the main menu
 	
-	public static void main(String[] args) {
+	public GameWindow(){
 		
 		JFrame frame = new JFrame("Solar Colony");
 		frame.setSize(720, 720);
@@ -22,7 +23,6 @@ public class GameWindow extends JFrame {
 		frame.setResizable(false);
 		
 		// adding a "new game" button
-		JPanel panel1 = new JPanel();
 		frame.add(panel1);
 		JButton button1 = new JButton("New Game");
 		panel1.add(button1);
@@ -39,10 +39,10 @@ public class GameWindow extends JFrame {
 		});
 		
 		// adding a "load game" button
-		JPanel panel2 = new JPanel();
-		frame.add(panel2);
+		frame.add(panel1);
 		JButton button2 = new JButton("Load Game");
-		panel2.add(button2);
+		//button2.setBounds(561, 11, 40, 40);
+		panel1.add(button2);
 		button2.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				JFrame frame2 = new JFrame("Solar Colony");
@@ -55,17 +55,17 @@ public class GameWindow extends JFrame {
 			}
 		});
 		
-		//adding a "quit" button
-		JPanel panel3 = new JPanel();
-		frame.add(panel3);
+		//adding a "quit" button, prompting for user's confirmation then quit
+		frame.add(panel1);
 		JButton button3 = new JButton("Quit");
-		panel3.add(button1);
+		panel1.add(button3);
 		button3.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				JFrame frame = new JFrame();
 				int result = JOptionPane.showConfirmDialog(frame,"Are you sure?");
 				if(result == JOptionPane.YES_OPTION){
-					frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					/* add a save feature before exit, then quit */
+					System.exit(0);
 				}
 			}
 		});

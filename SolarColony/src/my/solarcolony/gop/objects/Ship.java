@@ -1,5 +1,6 @@
 package my.solarcolony.gop.objects;
 
+
 public class Ship {
 	private int faction;
 	private int [] pos = new int[2];

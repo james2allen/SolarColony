@@ -1,7 +1,11 @@
 package my.solarcolony.gop.main;
 
 import java.awt.event.ActionEvent;
+
 import java.awt.event.ActionListener;
+
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -9,18 +13,21 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
- * GameWindow sets up the main game window
+ * GameWindow sets up the main game frames
  */
 public class GameWindow extends JFrame {
 	private JPanel panel1 = new JPanel();  // main panel of the main menu
 	private JFrame frame = new JFrame("Solar Colony");
-	public GameWindow(){
+	private Music effects = new Music();
+	
+	public GameWindow() throws UnsupportedAudioFileException, LineUnavailableException{
 		
 		frame.setSize(720, 720);
 		frame.setLocationRelativeTo(null);      //positions the frame from start up in middle
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.setVisible(true);
+		effects.backgroundMusic();
 		
 		// adding a "new game" button
 		frame.add(panel1);
@@ -43,7 +50,6 @@ public class GameWindow extends JFrame {
 				// add start game button to start the game play
 				JButton game = new JButton("Start Game");
 				game.addActionListener(new ActionListener(){
-					
 					// start game button will redirect to game screen
 					public void actionPerformed(ActionEvent e){
 						// Hide Frames for gameplay
@@ -57,13 +63,15 @@ public class GameWindow extends JFrame {
 						frame3.setSize(720,720);
 						frame3.setLocationRelativeTo(null);
 						frame3.setResizable(false);
+						
+						// ADD PAUSE SCREEN
+						// ADD FINISH SCREEN
 					}
 				   });
 				
 				// add back button to go back to main screen
 				JButton back = new JButton("Back");
 				back.addActionListener(new ActionListener(){
-					
 					// New game button redirects to the Game Settings
 					public void actionPerformed(ActionEvent e){
 						

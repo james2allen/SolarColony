@@ -9,9 +9,9 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 
 public class Main extends ApplicationAdapter implements InputProcessor {
-	OrthographicCamera camera;
-	Box2DDebugRenderer debugRenderer;
-	World world;
+	
+	private Box2DDebugRenderer debugRenderer;
+	private World world;
 	
 	public static void main(String[] args)
 	{

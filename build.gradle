@@ -13,7 +13,7 @@ allprojects {
 
     version = '1.0'
     ext {
-        appName = "SolarPower"
+        appName = "SolarColony"
         gdxVersion = '1.9.2'
         roboVMVersion = '1.12.0'
         box2DLightsVersion = '1.4'
@@ -28,25 +28,15 @@ allprojects {
     }
 }
 
-project(":desktop") {
+project(":SolarColony") {
     apply plugin: "java"
 
 
     dependencies {
-        compile project(":core")
+        compile project(":SolarColony")
         compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
-    }
-}
-
-project(":core") {
-    apply plugin: "java"
-
-
-    dependencies {
-        compile "com.badlogicgames.gdx:gdx:$gdxVersion"
-        compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
     }
 }
 

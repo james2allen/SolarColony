@@ -16,17 +16,10 @@ public class Main extends ApplicationAdapter implements InputProcessor {
 	
 	private Box2DDebugRenderer debugRenderer;
 	private World world;
-	private static Planet[] planets;
-	private static Ship[] ships;
-	private static ShapeRenderer sr;
 	
 	public static void main(String[] args)
 	{
-		ships = new Ship[40];
-		planets = new Planet[12];
-		
-		sr = new ShapeRenderer();
-		
+		Game game = new Game();
 		LwjglApplicationConfiguration cfg = 
 				new LwjglApplicationConfiguration();
 		
@@ -35,19 +28,13 @@ public class Main extends ApplicationAdapter implements InputProcessor {
 		cfg.height = Game.V_HEIGHT;
 		cfg.resizable = false;
 		
+		
 		new LwjglApplication(new Game(), cfg);
 		
-	}
-	
-	
-	public void createPlanets(){
-		Game.getCamera().update();
-		for(int i = 0; i< 9; i++){
-			int radius = (int) (Math.random()*(50-40))+40;
-			planets[i] = new Planet(100, 100, radius);
-		}
+		game.create();
 		
 	}
+	
 
 	@Override
 	public boolean keyDown(int keycode) {

@@ -1,5 +1,7 @@
 package my.solarcolony.gop.objects;
 
+import org.lwjgl.opengl.GL11;
+
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -12,7 +14,6 @@ public class Game implements ApplicationListener{
 	public static final String TITLE = "Solar Colony";
 	public static final int V_WIDTH = 460;
 	public static final int V_HEIGHT = 320;
-	public static final int scale = 2;
 	
 	private SpriteBatch sb;
 	private OrthographicCamera cam;
@@ -28,15 +29,18 @@ public class Game implements ApplicationListener{
 		
 		//Gdx.input.setInputProcessor(this);
 		
-		//camera = new OrthographicCamera(Gdx.graphics.getWidth(),
-				//Gdx.graphics.getHeight());
+		//create and translate camera and update it
+		cam = new OrthographicCamera(V_WIDTH, V_HEIGHT);
+		cam.translate(V_WIDTH/2, V_HEIGHT/2);
+		cam.update();
 		
 	}
 	
+	//continuous loop that game calls to update game state
 	public void render(){
-		//camera.update();
-		//Step the physics simulation forward at a rate of 60hz
-		//world.step(1f/60f, 6, 2);
+		
+		Gdx.gl.glClearColor(0, 0, 0, 1);
+		Gdx.gl.glClear(GL11.GL_COLOR_BUFFER_BIT);
 	}
 	
 	@Override

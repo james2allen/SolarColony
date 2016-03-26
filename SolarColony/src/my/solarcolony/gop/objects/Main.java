@@ -19,8 +19,9 @@ public class Main extends ApplicationAdapter implements InputProcessor {
 				new LwjglApplicationConfiguration();
 		
 		cfg.title = Game.TITLE;
-		cfg.width = Game.V_WIDTH * Game.scale;
-		cfg.height = Game.V_HEIGHT *Game.scale;
+		cfg.width = Game.V_WIDTH;
+		cfg.height = Game.V_HEIGHT;
+		cfg.resizable = false;
 		
 		new LwjglApplication(new Game(), cfg);
 		

@@ -15,13 +15,13 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  *  Music class contains the music that will be available within game play
  */
 public class Music {
-	
+	 Clip clip;
 	
 	// plays the background Music
    public void backgroundMusic() {
 	   try {
 		         AudioInputStream audio = AudioSystem.getAudioInputStream(new File("./background.wav"));
-		         Clip clip = AudioSystem.getClip();
+		         clip = AudioSystem.getClip();
 		         clip.open(audio);
 		         clip.start();
 		       }
@@ -35,4 +35,8 @@ public class Music {
 		    	   a.printStackTrace();
 		       }
 		   }
+   
+   public void stopBMusic(){
+	   clip.stop();
+   }
 }

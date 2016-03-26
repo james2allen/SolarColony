@@ -117,6 +117,7 @@ public class GameWindow extends JFrame {
 				int result = JOptionPane.showConfirmDialog(frame,"Are you sure?");
 				if(result == JOptionPane.YES_OPTION){
 					/* add a save feature before exit, then quit */
+					effects.stopBMusic();
 					System.exit(0);
 				}
 			}

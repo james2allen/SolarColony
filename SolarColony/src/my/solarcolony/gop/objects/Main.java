@@ -5,16 +5,28 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+
+import my.solarcolony.gop.entities.Planet;
+import my.solarcolony.gop.entities.Ship;
 
 public class Main extends ApplicationAdapter implements InputProcessor {
 	
 	private Box2DDebugRenderer debugRenderer;
 	private World world;
+	private static Planet[] planets;
+	private static Ship[] ships;
+	private static ShapeRenderer sr;
 	
 	public static void main(String[] args)
 	{
+		ships = new Ship[40];
+		planets = new Planet[12];
+		
+		sr = new ShapeRenderer();
+		
 		LwjglApplicationConfiguration cfg = 
 				new LwjglApplicationConfiguration();
 		
@@ -28,7 +40,12 @@ public class Main extends ApplicationAdapter implements InputProcessor {
 	}
 	
 	
-	public void addPlanet(int x, int y, int radius){
+	public void createPlanets(){
+		Game.getCamera().update();
+		for(int i = 0; i< 9; i++){
+			int radius = (int) (Math.random()*(50-40))+40;
+			planets[i] = new Planet(100, 100, radius);
+		}
 		
 	}
 

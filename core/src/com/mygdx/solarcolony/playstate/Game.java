@@ -43,11 +43,25 @@ public class Game implements ApplicationListener{
 		
 		sr = new ShapeRenderer();
 		
+		int x = randInt(60,10), y = randInt(60,10);
+		
 		//Game.getCamera().update();
 		for(int i = 0; i< 9; i++){
-			int radius = (int) (Math.random()*(50-40))+40;
-			planets[i] = new Planet(100, 100, radius);
-			planets[i].draw(sr);
+			int radius = randInt(45, 15);
+			
+			x+=randInt(200, 100);
+			y+=randInt(100, 50);
+			
+			if(x >= 800 || x + radius >= 800){
+				x = randInt(60,10);
+				y += randInt(175, 50);
+			}
+			if(y >= 600)
+				y-=150;
+			else if(y <= 0)
+				y+=100;
+			
+			planets[i] = new Planet(x, y, radius);
 		}
 		
 	}
@@ -62,6 +76,11 @@ public class Game implements ApplicationListener{
 		for(int i = 0; i< 9; i++){
 			planets[i].draw(sr);
 		}
+	}
+	
+	public int randInt(int num, int range){
+		int max = num+range,min = num-range;
+		return (int)(Math.random()*(max - min))+ min;
 	}
 	
 	@Override

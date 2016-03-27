@@ -4,13 +4,13 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 public class Planet {
-	int x;
-	int y;
-	int radius;
-	int faction;
-	int totalPop;
-	int curPop;
-	boolean isSelected;
+	private int x;
+	private int y;
+	private int radius;
+	private int faction;
+	private int totalPop;
+	private int curPop;
+	private boolean isSelected;
 	
 	public Planet(int x, int y, int radius)
 	{
@@ -23,7 +23,7 @@ public class Planet {
 		this.curPop = totalPop/2;
 	}
 	
-	//automatic function for population regeneration
+	//automatic function for population regeneration 
 	public int updatePop()
 	{
 		curPop += 2;

@@ -12,13 +12,22 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
+import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.mygdx.solarcolony.playstate.Game;
+import com.badlogic.gdx.InputProcessor;
+
+
 /**
  * GameWindow sets up the main game frames
  */
-public class GameWindow extends JFrame {
+public class GameWindow extends JFrame{
 	private JPanel panel1 = new JPanel();  // main panel of the main menu
 	private JFrame frame = new JFrame("Solar Colony");
+	private JFrame frame2 = new JFrame("Solar Colony");
 	private Music effects = new Music();
+	private LwjglApplicationConfiguration cfg = 
+			new LwjglApplicationConfiguration();
 	
 	public GameWindow() throws UnsupportedAudioFileException, LineUnavailableException{
 		
@@ -38,7 +47,6 @@ public class GameWindow extends JFrame {
 			// New game button redirects to the Game Settings
 			public void actionPerformed(ActionEvent e){
 				frame.setVisible(false);                         // hide frame 1 for focus on game settings
-				JFrame frame2 = new JFrame("Solar Colony");
 				frame2.setVisible(true);
 				frame2.setLocationRelativeTo(null);
 				frame2.setSize(720,720);
@@ -55,14 +63,15 @@ public class GameWindow extends JFrame {
 						// Hide Frames for gameplay
 						frame.setVisible(false);          
 						frame2.setVisible(false);
-			
-						// create game frame
-						JFrame frame3 = new JFrame("Solar Colony");
-						frame3.setVisible(true);
-						frame3.setLocationRelativeTo(null);
-						frame3.setSize(720,720);
-						frame3.setLocationRelativeTo(null);
-						frame3.setResizable(false);
+						
+						// actual game
+						cfg.title = Game.TITLE;
+						cfg.width = Game.V_WIDTH;
+						cfg.height = Game.V_HEIGHT;
+						cfg.resizable = false;
+						
+						new LwjglApplication(new Game(), cfg);
+						
 						
 						// ADD PAUSE SCREEN
 						// ADD FINISH SCREEN

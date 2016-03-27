@@ -12,13 +12,13 @@ public class Planet {
 	private int curPop;
 	private boolean isSelected;
 	
-	public Planet(int x, int y, int radius)
+	public Planet(int x, int y, int radius, int faction)
 	{
 		isSelected = false;
 		this.x = x;
 		this.y = y;
 		this.radius = radius;
-		this.faction = 0;
+		this.faction = faction;
 		this.totalPop = (int) (radius * 1.2) + 500;
 		this.curPop = totalPop/2;
 	}
@@ -54,9 +54,24 @@ public class Planet {
 		faction = new_faction;
 	}
 	
+	public int getFac()
+	{
+		return faction;
+	}
+	
 	public int shipLaunch()
 	{
 		return 0;
+	}
+	
+	public void setSelected(boolean select)
+	{
+		isSelected = select;
+	}
+	
+	public boolean isSelected()
+	{
+		return isSelected;
 	}
 	
 	public void draw(ShapeRenderer sr)
@@ -75,8 +90,21 @@ public class Planet {
 		sr.circle(x, y, radius);
 		sr.end();
 		
+		if(isSelected){
+			sr.begin(ShapeType.Line);
+			sr.circle(x, y, radius+10);
+			sr.end();
+		}
+		
 		
 	}
 	
+	public boolean contains(float px, float py)
+	{
+		if(Math.pow((px-x), 2) + Math.pow((py-y), 2) < Math.pow(radius, 2))
+			return true;
+		else
+			return false;
+	}
 	
 }

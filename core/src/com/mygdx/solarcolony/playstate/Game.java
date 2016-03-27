@@ -3,6 +3,7 @@ package com.mygdx.solarcolony.playstate;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -11,7 +12,7 @@ import com.mygdx.solarcolony.entities.Planet;
 import com.mygdx.solarcolony.entities.Ship;
 
 
-public class Game implements ApplicationListener{
+public class Game implements ApplicationListener, InputProcessor{
 	
 	public static final String TITLE = "Solar Colony";
 	public static final int V_WIDTH = 800;
@@ -35,7 +36,6 @@ public class Game implements ApplicationListener{
 		ships = new Ship[40];
 		planets = new Planet[12];
 		
-		// TODO Auto-generated method stub
 		//create and translate camera and update it
 		cam = new OrthographicCamera(V_WIDTH, V_HEIGHT);
 		cam.translate(V_WIDTH/2, V_HEIGHT/2);
@@ -44,9 +44,20 @@ public class Game implements ApplicationListener{
 		sr = new ShapeRenderer();
 		
 		int x = randInt(60,10), y = randInt(60,10);
+		int faction = 1;
 		
-		//Game.getCamera().update();
+		/*
+		 * 	TODO: This is the loop that gens the planets
+		 * 	need to write it so that there's enough variance
+		 * 	but yet the map is balanced & all planets are within the screen
+		 * 
+		 */
 		for(int i = 0; i< 9; i++){
+			if(i != 0)
+				faction = 0;
+			if(i == 8)
+				faction = 2;
+				
 			int radius = randInt(45, 15);
 			
 			x+=randInt(200, 100);
@@ -61,7 +72,7 @@ public class Game implements ApplicationListener{
 			else if(y <= 0)
 				y+=100;
 			
-			planets[i] = new Planet(x, y, radius);
+			planets[i] = new Planet(x, y, radius, faction);
 		}
 		
 	}
@@ -105,4 +116,66 @@ public class Game implements ApplicationListener{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		
+		String message = screenX + " " + screenY;
+        Gdx.app.log("INFO", message);
+		
+		
+	    for(int i = 0; i < 9; i++)
+	    {
+	        if(planets[i].contains(screenX, screenY))
+	        {
+	        	for(int j = 0; i < 9; i++)
+			    {
+		        	if(planets[j].isSelected()&& i != j){
+		        		planets[j].setSelected(false);
+		        	}
+			    }
+	            planets[i].setSelected(true);
+	            break;
+	        }
+	        
+	    }
+	    return true;
+	}
+	
+	@Override
+	public boolean keyDown(int keycode) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean keyUp(int keycode) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean keyTyped(char character) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean mouseMoved(int screenX, int screenY) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean scrolled(int amount) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
 }

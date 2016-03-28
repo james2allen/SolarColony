@@ -12,7 +12,7 @@ import com.mygdx.solarcolony.entities.Planet;
 import com.mygdx.solarcolony.entities.Ship;
 
 
-public class Game implements ApplicationListener, InputProcessor{
+public class Game implements ApplicationListener{
 	
 	public static final String TITLE = "Solar Colony";
 	public static final int V_WIDTH = 800;
@@ -73,6 +73,8 @@ public class Game implements ApplicationListener, InputProcessor{
 				y+=100;
 			
 			planets[i] = new Planet(x, y, radius, faction);
+			if(i == 0)
+				System.out.println(x + " " + y);
 		}
 		
 	}
@@ -80,6 +82,26 @@ public class Game implements ApplicationListener, InputProcessor{
 	
 	//continuous loop that game calls to update game state
 	public void render(){
+		
+		if(Gdx.input.isTouched())
+		{
+			System.out.println("x: "+ Gdx.input.getX() + ",y: " + (600-Gdx.input.getY()));
+			for(int i = 0; i < 9; i++)
+		    {
+		        if(planets[i].contains(Gdx.input.getX(), 600 - Gdx.input.getY()))
+		        {
+		        	for(int j = 0; i < 9; i++)
+				    {
+			        	if(planets[j].isSelected()&& i != j){
+			        		planets[j].setSelected(false);
+			        	}
+				    }
+		            planets[i].setSelected(true);
+		            
+		        }
+		        
+		    }
+		}
 		
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -115,67 +137,6 @@ public class Game implements ApplicationListener, InputProcessor{
 	public void resume() {
 		// TODO Auto-generated method stub
 		
-	}
-	
-	@Override
-	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		
-		String message = screenX + " " + screenY;
-        Gdx.app.log("INFO", message);
-		
-		
-	    for(int i = 0; i < 9; i++)
-	    {
-	        if(planets[i].contains(screenX, screenY))
-	        {
-	        	for(int j = 0; i < 9; i++)
-			    {
-		        	if(planets[j].isSelected()&& i != j){
-		        		planets[j].setSelected(false);
-		        	}
-			    }
-	            planets[i].setSelected(true);
-	            break;
-	        }
-	        
-	    }
-	    return true;
-	}
-	
-	@Override
-	public boolean keyDown(int keycode) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public boolean keyUp(int keycode) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public boolean keyTyped(char character) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public boolean mouseMoved(int screenX, int screenY) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public boolean scrolled(int amount) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 	
 }

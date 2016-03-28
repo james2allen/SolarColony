@@ -14,7 +14,7 @@ public class Planet {
 	
 	public Planet(int x, int y, int radius, int faction)
 	{
-		isSelected = false;
+		this.isSelected = false;
 		this.x = x;
 		this.y = y;
 		this.radius = radius;
@@ -66,12 +66,12 @@ public class Planet {
 	
 	public void setSelected(boolean select)
 	{
-		isSelected = select;
+		this.isSelected = select;
 	}
 	
 	public boolean isSelected()
 	{
-		return isSelected;
+		return this.isSelected;
 	}
 	
 	public void draw(ShapeRenderer sr)

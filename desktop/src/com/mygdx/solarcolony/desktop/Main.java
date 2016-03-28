@@ -2,6 +2,7 @@ package com.mygdx.solarcolony.desktop;
 
 import javax.swing.SwingUtilities;
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
 
 
 public class Main extends ApplicationAdapter{
@@ -20,5 +21,6 @@ public class Main extends ApplicationAdapter{
 
 			}
 		});
+		
 	}
 }

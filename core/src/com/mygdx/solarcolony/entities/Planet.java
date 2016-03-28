@@ -1,5 +1,8 @@
 package com.mygdx.solarcolony.entities;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
@@ -26,7 +29,7 @@ public class Planet {
 	//automatic function for population regeneration 
 	public int updatePop()
 	{
-		curPop += 2;
+		curPop += 1;
 		if(curPop >= totalPop)
 			curPop = totalPop;
 		
@@ -105,7 +108,15 @@ public class Planet {
 			sr.circle(x, y, radius+10);
 			sr.end();
 		}
-		
+
+		BitmapFont font = new BitmapFont();
+
+		SpriteBatch spriteBatch = new SpriteBatch();
+
+		spriteBatch.begin();
+		CharSequence str = Integer.toString(curPop);
+		font.draw(spriteBatch, str, x-15, y+10);
+		spriteBatch.end();
 		
 	}
 	

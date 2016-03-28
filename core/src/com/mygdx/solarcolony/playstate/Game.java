@@ -77,7 +77,6 @@ public class Game implements ApplicationListener{
 				y += 100;
 
 			planets[i] = new Planet(x, y, radius, faction);
-			System.out.println(x + " " + y);
 		}
 		
 		inputProcessor = new MyInputProcessor();
@@ -130,6 +129,13 @@ public class Game implements ApplicationListener{
 		
 		for(int i = 0; i< 9; i++){
 			planets[i].draw(sr);
+			if(planets[i].getFac()!=0)
+				planets[i].updatePop();
+		}
+
+		for(int i=0; i<numShips; i++)
+		{
+			ships[i].draw(sr);
 		}
 	}
 	

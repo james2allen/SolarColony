@@ -56,32 +56,32 @@ public class Game implements ApplicationListener{
 		 * 	but yet the map is balanced & all planets are within the screen
 		 * 
 		 */
-		for(int i = 0; i< 9; i++){
-			if(i != 0)
+		for(int i = 0; i< 9; i++) {
+			if (i != 0)
 				faction = 0;
-			if(i == 8)
+			if (i == 8)
 				faction = 2;
-				
+
 			int radius = randInt(45, 15);
-			
-			x+=randInt(200, 100);
-			y+=randInt(100, 50);
-			
-			if(x >= 800 || x + radius >= 800){
-				x = randInt(60,10);
+
+			x += randInt(200, 100);
+			y += randInt(100, 50);
+
+			if (x >= 800 || x + radius >= 800) {
+				x = randInt(60, 10);
 				y += randInt(175, 50);
 			}
-			if(y >= 600)
-				y-=150;
-			else if(y <= 0)
-				y+=100;
-			
+			if (y >= 600)
+				y -= 150;
+			else if (y <= 0)
+				y += 100;
+
 			planets[i] = new Planet(x, y, radius, faction);
-			if(i == 0)
-				System.out.println(x + " " + y);
+			System.out.println(x + " " + y);
 		}
 		
 		inputProcessor = new MyInputProcessor();
+		inputProcessor.setPlanets(planets);
 		Gdx.input.setInputProcessor(inputProcessor);
 		
 	}

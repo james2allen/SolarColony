@@ -15,8 +15,8 @@ public class MyInputProcessor implements InputProcessor
     private int [] mCoords = new int [2];
     
     public void setPlanets(Planet[] parr)
-    {
-    	this.planets = parr;
+	{
+		this.planets = parr;
     }
 
 	@Override
@@ -50,8 +50,6 @@ public class MyInputProcessor implements InputProcessor
 	//Mouse input processor
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		//Prints screen position
-		System.out.println("x: "+ screenX + ",y: " + (600-screenY));
 		
 		//checks if mouse left clicked
 		if(button ==  Input.Buttons.LEFT)
@@ -60,16 +58,15 @@ public class MyInputProcessor implements InputProcessor
 			for(int i = 0; i < 9; i++)
 		    {
 				//checks if left click lands on a planet
-		        if(planets[i].contains(screenX, 600 - screenY))
+		        if(planets[i].contains(screenX, (float)600 - screenY))
 		        {
-		        	for(int j = 0; i < 9; i++)
-				    {
-		        		//deselects other planets
-			        	if(planets[j].isSelected()&& i != j){
-			        		planets[j].setSelected(false);
-			        	}
-				    }
-		        	
+		        	for(int j = 0; j < 9; j++) {
+						//deselects other planets
+						if (planets[j].isSelected() && i != j) {
+							planets[j].setSelected(false);
+						}
+					}
+
 		        	//selects new planet
 		            planets[i].setSelected(true);
 		            buttonPressed = 1;

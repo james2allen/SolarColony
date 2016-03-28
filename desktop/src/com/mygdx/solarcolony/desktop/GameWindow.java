@@ -3,6 +3,7 @@ package com.mygdx.solarcolony.desktop;
 import java.awt.event.ActionEvent;
 
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -29,7 +30,7 @@ public class GameWindow extends JFrame{
 	private LwjglApplicationConfiguration cfg = 
 			new LwjglApplicationConfiguration();
 	
-	public GameWindow() throws UnsupportedAudioFileException, LineUnavailableException{
+	public GameWindow() throws UnsupportedAudioFileException, LineUnavailableException, FileNotFoundException{
 		
 		frame.setSize(720, 720);
 		frame.setLocationRelativeTo(null);      //positions the frame from start up in middle

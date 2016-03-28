@@ -1,11 +1,8 @@
 package com.mygdx.solarcolony.desktop;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -18,9 +15,9 @@ public class Music {
 	 Clip clip;
 	
 	// plays the background Music
-   public void backgroundMusic() {
+   public void backgroundMusic() throws FileNotFoundException {  
 	   try {
-		         AudioInputStream audio = AudioSystem.getAudioInputStream(new File("background.wav"));
+		         AudioInputStream audio = AudioSystem.getAudioInputStream(new File("./src/background.wav"));
 		         clip = AudioSystem.getClip();
 		         clip.open(audio);
 		         clip.start();

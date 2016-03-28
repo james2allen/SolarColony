@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.solarcolony.entities.Planet;
@@ -100,12 +101,26 @@ public class Game implements ApplicationListener{
 		
 		for(int i = 0; i < 9; i++)
 		{
-			if(planets[i].isSelected())
+			if(planets[i].isSelected() && planets[i].getPop()-50 >= 100)
 			{
+                planets[i].shipPop();
 				pLaunch = planets[i];
 				selected = true;
 				break;
 			}
+            
+            /*if(planets[i].getPop()-50 >= 100)
+            {
+                BitmapFont font = new BitmapFont();
+
+                SpriteBatch spriteBatch = new SpriteBatch();
+
+                spriteBatch.begin();
+                CharSequence str = "Not enough population to launch!";
+                font.draw(spriteBatch, str, 50, 50);
+                spriteBatch.end();
+
+            }*/
 			
 		}
 		
@@ -139,17 +154,31 @@ public class Game implements ApplicationListener{
 		{
 			ships[i].draw(sr);
 			ships[i].shipMove();
+			if(ships[i].getX() < 0 || ships[i].getX() > V_WIDTH ||
+                    ships[i].getY() < 0 || ships[i].getY() > V_HEIGHT)
+                shipRemove(i);
+
 		}
 	}
+
+	public void shipRemove(int n)
+	{
+		for(int i = n; i < numShips; i++)
+		{
+			ships[i] = ships[i+1];
+		}
+		ships[numShips-1] = null;
+		numShips--;
+	}
 	
-	public int randInt(int num, int range){
+	private int randInt(int num, int range){
 		int max = num+range,min = num-range;
 		return (int)(Math.random()*(max - min))+ min;
 	}
 	
 	@Override
 	public void dispose(){
-		//world.dispose();
+
 	}
 
 	@Override

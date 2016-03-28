@@ -45,7 +45,7 @@ public class Ship {
 		}
 		
 		sr.begin(ShapeType.Filled);
-		sr.rect(x, y, 2, 5);
+		sr.rect(x, y, 0,0, 2, 5,1.f,1.f, 45.f);
 		sr.end();
 		
 	}
@@ -54,5 +54,15 @@ public class Ship {
 	{
 		this.x += this.dx * speed;
 		this.y += this.dy * speed;
+	}
+
+	public int getX()
+	{
+		return this.x;
+	}
+
+	public int getY()
+	{
+		return this.y;
 	}
 }

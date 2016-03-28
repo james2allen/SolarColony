@@ -68,7 +68,8 @@ public class MyInputProcessor implements InputProcessor
 					}
 
 		        	//selects new planet
-		            planets[i].setSelected(true);
+					if(planets[i].getFac() == 1)
+		            	planets[i].setSelected(true);
 		            buttonPressed = 1;
 		            return true;
 		            

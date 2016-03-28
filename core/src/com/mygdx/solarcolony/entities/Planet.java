@@ -42,7 +42,7 @@ public class Planet {
 			curPop -= 50;
 			if(curPop <= 0){
 				faction = ship.getFaction();
-				curPop = (int)(totalPop * 0.25);
+				curPop = 100;
 			}
 		} else if(ship.getFaction() == faction){
 			curPop += 50;
@@ -51,6 +51,16 @@ public class Planet {
 		}
 		return curPop;
 	}
+
+    public int getPop()
+    {
+        return curPop;
+    }
+
+    public void shipPop()
+    {
+        curPop -=50;
+    }
 	
 	public void changeFac(int new_faction)
 	{

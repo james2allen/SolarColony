@@ -96,7 +96,7 @@ public class Game implements ApplicationListener{
 	}
 	
 	private void shipLaunch(int x, int y) {
-		Planet pLaunch;
+		Planet pLaunch = planets[8];
 		boolean selected = false;
 		
 		for(int i = 0; i < 9; i++)
@@ -112,7 +112,10 @@ public class Game implements ApplicationListener{
 		
 		if(selected)
 		{
-			// code to launch ship
+			//first get the direction that the ship will be moving in
+			int dx = x - pLaunch.getX();
+			int dy = y - pLaunch.getY();
+			ships[numShips] = new Ship(pLaunch.getX(), pLaunch.getY(), dx, dy, pLaunch.getFac());
 		}
 		
 	}

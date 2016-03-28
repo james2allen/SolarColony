@@ -59,6 +59,16 @@ public class Planet {
 		return faction;
 	}
 	
+	public int getX()
+	{
+		return x;
+	}
+	
+	public int getY()
+	{
+		return y;
+	}
+	
 	public int shipLaunch()
 	{
 		return 0;

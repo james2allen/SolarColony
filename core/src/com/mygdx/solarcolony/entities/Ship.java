@@ -15,14 +15,14 @@ public class Ship {
 	protected float speed;
 	protected float radDir;
 	
-	public Ship(int x, int y, int dx, int dy, float dir, int faction){
+	public Ship(int x, int y, int dx, int dy, int faction){
 		this.x = x;
 		this.y = y;
 		this.dx = dx;
 		this.dy = dy;
-		this.radDir = dir;
+		this.radDir = 0;
 		this.faction = faction;
-		
+		this.speed = 30;
 	}
 	
 	public int getFaction()

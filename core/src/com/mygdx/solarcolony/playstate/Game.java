@@ -18,6 +18,7 @@ public class Game implements ApplicationListener{
 	public static final int V_WIDTH = 800;
 	public static final int V_HEIGHT = 600;
 	
+	
 	private SpriteBatch sb;
 	private OrthographicCamera cam;
 	private OrthographicCamera hudCam;
@@ -25,7 +26,9 @@ public class Game implements ApplicationListener{
 
 	private Planet[] planets;
 	private Ship[] ships;
+	private int numShips;
 	private ShapeRenderer sr;
+	private MyInputProcessor inputProcessor;
 	
 	public SpriteBatch getSpriteBatch() {return sb;}
 	public OrthographicCamera getCamera() {return cam;}
@@ -34,6 +37,7 @@ public class Game implements ApplicationListener{
 	@Override
 	public void create() {
 		ships = new Ship[40];
+		numShips = 0;
 		planets = new Planet[12];
 		
 		//create and translate camera and update it
@@ -77,31 +81,46 @@ public class Game implements ApplicationListener{
 				System.out.println(x + " " + y);
 		}
 		
+		inputProcessor = new MyInputProcessor();
+		Gdx.input.setInputProcessor(inputProcessor);
+		
 	}
 	
+	public void update()
+	{
+		if(inputProcessor.getButton() == 2)
+		{
+			int [] coords = inputProcessor.getCoords();
+			shipLaunch(coords[0], coords[1]);
+		}
+	}
+	
+	private void shipLaunch(int x, int y) {
+		Planet pLaunch;
+		boolean selected = false;
+		
+		for(int i = 0; i < 9; i++)
+		{
+			if(planets[i].isSelected())
+			{
+				pLaunch = planets[i];
+				selected = true;
+				break;
+			}
+			
+		}
+		
+		if(selected)
+		{
+			// code to launch ship
+		}
+		
+	}
 	
 	//continuous loop that game calls to update game state
 	public void render(){
 		
-		if(Gdx.input.isTouched())
-		{
-			System.out.println("x: "+ Gdx.input.getX() + ",y: " + (600-Gdx.input.getY()));
-			for(int i = 0; i < 9; i++)
-		    {
-		        if(planets[i].contains(Gdx.input.getX(), 600 - Gdx.input.getY()))
-		        {
-		        	for(int j = 0; i < 9; i++)
-				    {
-			        	if(planets[j].isSelected()&& i != j){
-			        		planets[j].setSelected(false);
-			        	}
-				    }
-		            planets[i].setSelected(true);
-		            
-		        }
-		        
-		    }
-		}
+		update();
 		
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

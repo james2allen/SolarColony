@@ -9,20 +9,22 @@ public class Ship {
 	protected int x;
 	protected int y;
 	
-	protected int dx;
-	protected int dy;
+	protected double dx;
+	protected double dy;
 	
 	protected float speed;
 	protected float radDir;
 	
 	public Ship(int x, int y, int dx, int dy, int faction){
+		double mag = Math.pow(dx ,2) + Math.pow(dy,2);
+		mag = Math.sqrt(mag);
 		this.x = x;
 		this.y = y;
-		this.dx = dx;
-		this.dy = dy;
+		this.dx = dx/mag;
+		this.dy = dy/mag;
 		this.radDir = 0;
 		this.faction = faction;
-		this.speed = 30;
+		this.speed = 15;
 	}
 	
 	public int getFaction()
@@ -46,5 +48,11 @@ public class Ship {
 		sr.rect(x, y, 2, 5);
 		sr.end();
 		
+	}
+
+	public void shipMove()
+	{
+		this.x += this.dx * speed;
+		this.y += this.dy * speed;
 	}
 }

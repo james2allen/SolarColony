@@ -115,6 +115,8 @@ public class Game implements ApplicationListener{
 			int dx = x - pLaunch.getX();
 			int dy = y - pLaunch.getY();
 			ships[numShips] = new Ship(pLaunch.getX(), pLaunch.getY(), dx, dy, pLaunch.getFac());
+			numShips++;
+			//System.out.println("Launch" + x + " " + y);
 		}
 		
 	}
@@ -136,6 +138,7 @@ public class Game implements ApplicationListener{
 		for(int i=0; i<numShips; i++)
 		{
 			ships[i].draw(sr);
+			ships[i].shipMove();
 		}
 	}
 	

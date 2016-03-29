@@ -19,7 +19,7 @@ public class Music {
 	   try {
 		         File file = new File("desktop/src/background.wav");  		// Filename
 		   		 String path = file.getAbsolutePath();			// Get absolute path of file
-		   		File sound = new File(path);
+		   		 File sound = new File(path);
 		         AudioInputStream audio = AudioSystem.getAudioInputStream(sound);
 		         clip = AudioSystem.getClip();
 		         clip.open(audio);

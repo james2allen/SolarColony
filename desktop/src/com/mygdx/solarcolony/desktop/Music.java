@@ -17,8 +17,9 @@ public class Music {
 	// plays the background Music
    public void backgroundMusic() throws FileNotFoundException {  
 	   try {
-
-		         File sound = new File("../background.wav");
+		         File file = new File("desktop/src/background.wav");  		// Filename
+		   		 String path = file.getAbsolutePath();			// Get absolute path of file
+		   		File sound = new File(path);
 		         AudioInputStream audio = AudioSystem.getAudioInputStream(sound);
 		         clip = AudioSystem.getClip();
 		         clip.open(audio);

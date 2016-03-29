@@ -13,11 +13,13 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  */
 public class Music {
 	 Clip clip;
-	
+
 	// plays the background Music
    public void backgroundMusic() throws FileNotFoundException {  
 	   try {
-		         AudioInputStream audio = AudioSystem.getAudioInputStream(new File("./src/background.wav"));
+
+		         File sound = new File("../background.wav");
+		         AudioInputStream audio = AudioSystem.getAudioInputStream(sound);
 		         clip = AudioSystem.getClip();
 		         clip.open(audio);
 		         clip.start();
@@ -32,8 +34,15 @@ public class Music {
 		    	   a.printStackTrace();
 		       }
 		   }
-   
-   public void stopBMusic(){
-	   clip.stop();
+
+	/*
+		StopBMusic stops the background music from playing
+	 */
+   public void stopBMusic() {
+	   try {
+		   clip.stop();
+	   } catch (NullPointerException n) {
+		   n.printStackTrace();
+	   }
    }
 }

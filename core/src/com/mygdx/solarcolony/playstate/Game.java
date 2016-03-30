@@ -11,6 +11,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.solarcolony.entities.Planet;
 import com.mygdx.solarcolony.entities.Ship;
+import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.math.Vector2;
 
 
 public class Game implements ApplicationListener{
@@ -22,7 +24,10 @@ public class Game implements ApplicationListener{
 	
 	private SpriteBatch sb;
 	private OrthographicCamera cam;
-	private OrthographicCamera hudCam;
+	private OrthographicCamera b2dCam;
+
+	private World world;
+	private Box2DDebugRenderer b2dr;
 	
 
 	private Planet[] planets;
@@ -33,18 +38,26 @@ public class Game implements ApplicationListener{
 	
 	public SpriteBatch getSpriteBatch() {return sb;}
 	public OrthographicCamera getCamera() {return cam;}
-	public OrthographicCamera getHUDCamera() {return hudCam;}
 	
 	@Override
 	public void create() {
 		ships = new Ship[40];
 		numShips = 0;
 		planets = new Planet[12];
+
+		world = new World(new Vector2(0,0), false);
+
+		b2dr = new Box2DDebugRenderer();
 		
 		//create and translate camera and update it
 		cam = new OrthographicCamera(V_WIDTH, V_HEIGHT);
-		cam.translate(V_WIDTH/2, V_HEIGHT/2);
+		cam.setToOrtho(false, V_WIDTH, V_HEIGHT);
 		cam.update();
+
+		//create and translate camera and update it
+		b2dCam = new OrthographicCamera(V_WIDTH, V_HEIGHT);
+		b2dCam.setToOrtho(false, V_WIDTH, V_HEIGHT);
+		b2dCam.update();
 		
 		sr = new ShapeRenderer();
 		
@@ -77,7 +90,35 @@ public class Game implements ApplicationListener{
 			else if (y <= 0)
 				y += 100;
 
+			float density = 1.0f;
+
 			planets[i] = new Planet(x, y, radius, faction);
+
+			BodyDef planet = new BodyDef();
+
+			planet.type = BodyDef.BodyType.StaticBody;
+			planet.position.set(x,y);
+
+			if (i == 0)
+				System.out.println("Planet " + i + " x: " + planet.position.x+ " Y: " + planet.position.y);
+
+			Body body = world.createBody(planet);
+
+			CircleShape shape = new CircleShape();
+			shape.setRadius(radius);
+
+			FixtureDef fixDef = new FixtureDef();
+
+			fixDef.shape = shape;
+			fixDef.density = density;
+
+			body.createFixture(fixDef);
+
+
+			shape.dispose();
+
+
+
 		}
 		
 		inputProcessor = new MyInputProcessor();
@@ -86,13 +127,15 @@ public class Game implements ApplicationListener{
 		
 	}
 	
-	public void update()
+	public void update(float dt)
 	{
 		if(inputProcessor.getButton() == 2)
 		{
 			int [] coords = inputProcessor.getCoords();
 			shipLaunch(coords[0], coords[1]);
 		}
+
+		world.step(dt, 6, 2);
 	}
 	
 	private void shipLaunch(int x, int y) {
@@ -108,7 +151,7 @@ public class Game implements ApplicationListener{
 				selected = true;
 				break;
 			}
-            
+
             /*if(planets[i].getPop()-50 >= 100)
             {
                 BitmapFont font = new BitmapFont();
@@ -128,37 +171,77 @@ public class Game implements ApplicationListener{
 		{
 			//first get the direction that the ship will be moving in
 			int dx = x - pLaunch.getX();
-			int dy = y - pLaunch.getY();
-			ships[numShips] = new Ship(pLaunch.getX(), pLaunch.getY(), dx, dy, pLaunch.getFac());
+			int dy = (V_HEIGHT - y) - pLaunch.getY() ;
+
+			System.out.println("crosshair x:" + x + ", y: " + y);
+			System.out.println("ship x diff:" +dx + ", y diff: " + dy);
+
+			double mag = Math.pow(dx ,2) + Math.pow(dy,2);
+			mag = Math.sqrt(mag);
+
+			double vx = dx/mag;
+			double vy = dy/mag;
+
+			ships[numShips] = new Ship(pLaunch.getX(), pLaunch.getY(), vx, vy, pLaunch.getFac());
+			ships[numShips].position.set((float) (pLaunch.getX()+(pLaunch.getRadius() * vx)),
+					(float) (pLaunch.getY()+ (pLaunch.getRadius() * vy)));
+
+
+			Body body = world.createBody(ships[numShips]);
+
+			body.setLinearVelocity(ships[numShips].getSpeed());
+
+			PolygonShape ship = new PolygonShape();
+			ship.setAsBox(5,2);
+
+			FixtureDef fixtureDef = new FixtureDef();
+			fixtureDef.shape = ship;
+
+			body.createFixture(ship, 0.0f);
+			body.setTransform(body.getPosition(), ships[numShips].getSpeed().angleRad());
+
+			ship.dispose();
+
 			numShips++;
-			//System.out.println("Launch" + x + " " + y);
 		}
 		
 	}
 	
-	//continuous loop that game calls to update game state
+	//continuous loop that game calls to update game state & draw
 	public void render(){
+
 		
-		update();
+		update(1.f/60.f);
 		
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
+
+		b2dr.render(world, b2dCam.combined);
+
+        //planet drawing loop
 		for(int i = 0; i< 9; i++){
 			planets[i].draw(sr);
 			if(planets[i].getFac()!=0)
 				planets[i].updatePop();
 		}
 
+        /*ship drawing loop
 		for(int i=0; i<numShips; i++)
 		{
 			ships[i].draw(sr);
-			ships[i].shipMove();
+			//ships[i].shipMove();
 			if(ships[i].getX() < 0 || ships[i].getX() > V_WIDTH ||
                     ships[i].getY() < 0 || ships[i].getY() > V_HEIGHT)
                 shipRemove(i);
 
+		}*/
+
+		if(numShips>0)
+		{
+			//System.out.println(ships[0].position.x + " " + ships[0].position.y);
 		}
+
+
 	}
 
 	public void shipRemove(int n)

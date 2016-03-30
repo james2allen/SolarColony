@@ -2,35 +2,56 @@ package com.mygdx.solarcolony.entities;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.World;
 
-public class Ship {
+import static com.badlogic.gdx.physics.box2d.BodyDef.BodyType.DynamicBody;
+
+public class Ship extends BodyDef {
 	protected int faction;
-	
-	protected int x;
-	protected int y;
-	
-	protected double dx;
-	protected double dy;
-	
-	protected float speed;
+
+	private int x;
+	private int y;
+
+	private double dx;
+	private double dy;
+
 	protected float radDir;
+
+	private Vector2 vel;
+
+	private int speed = 30;
 	
-	public Ship(int x, int y, int dx, int dy, int faction){
-		double mag = Math.pow(dx ,2) + Math.pow(dy,2);
-		mag = Math.sqrt(mag);
-		this.x = x;
-		this.y = y;
-		this.dx = dx/mag;
-		this.dy = dy/mag;
+	public Ship(int x, int y, double dx, double dy, int faction){
+		this.dx = dx;
+		this.dy = dy;
+
+		System.out.println("ship1 dx:" +dx  + ", dy: " + dy);
+
 		this.radDir = 0;
 		this.faction = faction;
-		this.speed = 15;
+		this.speed = 500;
+		this.type = DynamicBody;
+		this.position.set(new Vector2(x, y));
+
+		vel = new Vector2((float)dx * this.speed, (float)dy * this.speed);
+
+
+		System.out.println("ship2 dx:" +dx * this.speed + ", dy: " + dy* this.speed);
+
+	}
+
+	public Vector2 getSpeed()
+	{
+		return vel;
 	}
 	
 	public int getFaction()
 	{
 		return faction;
 	}
+
 	
 	public void draw(ShapeRenderer sr)
 	{
@@ -48,12 +69,6 @@ public class Ship {
 		sr.rect(x, y, 0,0, 2, 5,1.f,1.f, 45.f);
 		sr.end();
 		
-	}
-
-	public void shipMove()
-	{
-		this.x += this.dx * speed;
-		this.y += this.dy * speed;
 	}
 
 	public int getX()

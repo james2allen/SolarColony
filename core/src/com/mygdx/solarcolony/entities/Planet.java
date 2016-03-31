@@ -22,6 +22,7 @@ public class Planet extends BodyDef {
 		this.y = y;
 		this.radius = radius;
 		this.faction = faction;
+		// placeholder population values, can be changed for better gameplay
 		this.totalPop = (int) (radius * 1.2) + 500;
 		this.curPop = totalPop / 2;
 	}
@@ -87,6 +88,7 @@ public class Planet extends BodyDef {
 		return this.isSelected;
 	}
 
+	//planet drawing function, current not being used except for planet select outline
 	public void draw(ShapeRenderer sr) {
 		if (faction == 0) {
 			sr.setColor(1, 1, 1, 1);
@@ -102,12 +104,15 @@ public class Planet extends BodyDef {
 		//sr.circle(x, y, radius);
 		//sr.end();
 
+		//draws the outline of the ship to be 10 pixels larger than the radius of planet
 		if (isSelected) {
 			sr.begin(ShapeType.Line);
 			sr.circle(x, y, radius + 10);
 			sr.end();
 		}
 
+
+		//draw population onto planet
 		BitmapFont font = new BitmapFont();
 
 		SpriteBatch spriteBatch = new SpriteBatch();
@@ -119,6 +124,7 @@ public class Planet extends BodyDef {
 
 	}
 
+	//check if px & px are within the area of the planet
 	public boolean contains(float px, float py) {
 		if (Math.pow((px - x), 2) + Math.pow((py - y), 2) < Math.pow(radius, 2))
 			return true;

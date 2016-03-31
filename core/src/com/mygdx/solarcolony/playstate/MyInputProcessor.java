@@ -83,7 +83,7 @@ public class MyInputProcessor implements InputProcessor
 		else if(button == Input.Buttons.RIGHT)
 		{
 			mCoords[0] = screenX;
-			mCoords[1] = screenY;
+			mCoords[1] = 600 - screenY; // Y values seem to be reversed for mouse clicks
 			buttonPressed = 2;
 			return true;
 		}

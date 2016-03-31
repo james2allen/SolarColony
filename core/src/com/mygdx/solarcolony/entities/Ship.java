@@ -21,7 +21,7 @@ public class Ship extends BodyDef {
 
 	private Vector2 vel;
 
-	private int speed = 30;
+	private int speed = 500;
 	
 	public Ship(int x, int y, double dx, double dy, int faction){
 		this.dx = dx;
@@ -31,10 +31,10 @@ public class Ship extends BodyDef {
 
 		this.radDir = 0;
 		this.faction = faction;
-		this.speed = 500;
+		//set to dynamic body because it will be traveling
 		this.type = DynamicBody;
-		this.position.set(new Vector2(x, y));
 
+		//multiply unit vector with speed of ship
 		vel = new Vector2((float)dx * this.speed, (float)dy * this.speed);
 
 
@@ -52,7 +52,7 @@ public class Ship extends BodyDef {
 		return faction;
 	}
 
-	
+	//function draws ship to shape renderer
 	public void draw(ShapeRenderer sr)
 	{
 		if(faction == 0){

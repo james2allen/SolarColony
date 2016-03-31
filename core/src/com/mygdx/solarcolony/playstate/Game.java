@@ -28,6 +28,7 @@ public class Game implements ApplicationListener{
 
 	private World world;
 	private Box2DDebugRenderer b2dr;
+	private static int PPM = 25;
 	
 
 	private Planet[] planets;
@@ -50,8 +51,8 @@ public class Game implements ApplicationListener{
 		b2dr = new Box2DDebugRenderer();
 		
 		//create and translate camera and update it
-		cam = new OrthographicCamera(V_WIDTH, V_HEIGHT);
-		cam.setToOrtho(false, V_WIDTH, V_HEIGHT);
+		cam = new OrthographicCamera(V_WIDTH/PPM, V_HEIGHT/PPM);
+		cam.setToOrtho(false, V_WIDTH/PPM, V_HEIGHT/PPM);
 		cam.update();
 
 		//create and translate camera and update it
@@ -76,10 +77,10 @@ public class Game implements ApplicationListener{
 			if (i == 8)
 				faction = 2;
 
-			int radius = randInt(45, 15);
+			int radius = randInt(65, 17);
 
-			x += randInt(200, 100);
-			y += randInt(100, 50);
+			x += 50;
+			y += 50;
 
 			if (x >= 800 || x + radius >= 800) {
 				x = randInt(60, 10);
@@ -92,12 +93,13 @@ public class Game implements ApplicationListener{
 
 			float density = 1.0f;
 
-			planets[i] = new Planet(x, y, radius, faction);
+			//planet creation... will be moved into its own method
+			planets[i] = new Planet(x/PPM, y/PPM, radius/PPM, faction);
 
 			BodyDef planet = new BodyDef();
 
 			planet.type = BodyDef.BodyType.StaticBody;
-			planet.position.set(x,y);
+			planet.position.set(x/PPM,y/PPM);
 
 			if (i == 0)
 				System.out.println("Planet " + i + " x: " + planet.position.x+ " Y: " + planet.position.y);
@@ -105,7 +107,7 @@ public class Game implements ApplicationListener{
 			Body body = world.createBody(planet);
 
 			CircleShape shape = new CircleShape();
-			shape.setRadius(radius);
+			shape.setRadius(radius/PPM);
 
 			FixtureDef fixDef = new FixtureDef();
 
@@ -116,37 +118,47 @@ public class Game implements ApplicationListener{
 
 
 			shape.dispose();
-
-
-
 		}
-		
+
+		//initialize mouse controls
 		inputProcessor = new MyInputProcessor();
 		inputProcessor.setPlanets(planets);
 		Gdx.input.setInputProcessor(inputProcessor);
-		
+
 	}
 	
 	public void update(float dt)
 	{
+		//if right click
 		if(inputProcessor.getButton() == 2)
 		{
+			//get right click coords
 			int [] coords = inputProcessor.getCoords();
+
+			//launch ship towards those coords
 			shipLaunch(coords[0], coords[1]);
+			System.out.println(coords[0] + " "+ coords[1]);
 		}
 
 		world.step(dt, 6, 2);
 	}
-	
+
+
 	private void shipLaunch(int x, int y) {
-		Planet pLaunch = planets[8];
+		Planet pLaunch = planets[8]; //temporary init
+
 		boolean selected = false;
-		
+
+		//loop through planet array
 		for(int i = 0; i < 9; i++)
 		{
+			//if there is a planet that is currently selected and they have enough pop to launch
 			if(planets[i].isSelected() && planets[i].getPop()-50 >= 100)
 			{
+				//update ship population for launch
                 planets[i].shipPop();
+
+				//save launching planet
 				pLaunch = planets[i];
 				selected = true;
 				break;
@@ -166,27 +178,32 @@ public class Game implements ApplicationListener{
             }*/
 			
 		}
-		
+
+		//if a planet was selected
 		if(selected)
 		{
 			//first get the direction that the ship will be moving in
 			int dx = x - pLaunch.getX();
-			int dy = (V_HEIGHT - y) - pLaunch.getY() ;
+			int dy = y - pLaunch.getY() ;
 
 			System.out.println("crosshair x:" + x + ", y: " + y);
 			System.out.println("ship x diff:" +dx + ", y diff: " + dy);
 
+			//get the magnitude of the vector
 			double mag = Math.pow(dx ,2) + Math.pow(dy,2);
 			mag = Math.sqrt(mag);
 
+			//get the unit vectors
 			double vx = dx/mag;
 			double vy = dy/mag;
 
+			//create new ship
 			ships[numShips] = new Ship(pLaunch.getX(), pLaunch.getY(), vx, vy, pLaunch.getFac());
 			ships[numShips].position.set((float) (pLaunch.getX()+(pLaunch.getRadius() * vx)),
 					(float) (pLaunch.getY()+ (pLaunch.getRadius() * vy)));
 
 
+			//ship init box2d, may move to own method
 			Body body = world.createBody(ships[numShips]);
 
 			body.setLinearVelocity(ships[numShips].getSpeed());
@@ -210,13 +227,15 @@ public class Game implements ApplicationListener{
 	//continuous loop that game calls to update game state & draw
 	public void render(){
 
-		
+
 		update(1.f/60.f);
-		
+
+		//clear screen
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		b2dr.render(world, b2dCam.combined);
+		//render box2d debug cam
+		b2dr.render(world, cam.combined);
 
         //planet drawing loop
 		for(int i = 0; i< 9; i++){
@@ -225,7 +244,7 @@ public class Game implements ApplicationListener{
 				planets[i].updatePop();
 		}
 
-        /*ship drawing loop
+        /*ship drawing loop commented out due to use of box2d renderer for now
 		for(int i=0; i<numShips; i++)
 		{
 			ships[i].draw(sr);
@@ -235,15 +254,9 @@ public class Game implements ApplicationListener{
                 shipRemove(i);
 
 		}*/
-
-		if(numShips>0)
-		{
-			//System.out.println(ships[0].position.x + " " + ships[0].position.y);
-		}
-
-
 	}
 
+	//function removes ship, does not account for box2d, must be fixed
 	public void shipRemove(int n)
 	{
 		for(int i = n; i < numShips; i++)
@@ -253,7 +266,11 @@ public class Game implements ApplicationListener{
 		ships[numShips-1] = null;
 		numShips--;
 	}
-	
+
+	/*
+	 * function returns a random int using num & a range where the final int
+	 * can be the original num plus or minus 0 - range
+	 */
 	private int randInt(int num, int range){
 		int max = num+range,min = num-range;
 		return (int)(Math.random()*(max - min))+ min;

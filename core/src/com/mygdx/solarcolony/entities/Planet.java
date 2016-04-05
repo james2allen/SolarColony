@@ -23,7 +23,7 @@ public class Planet extends BodyDef {
 		this.radius = radius;
 		this.faction = faction;
 		// placeholder population values, can be changed for better gameplay
-		this.totalPop = (int) (radius * 1.2) + 500;
+		this.totalPop = (int) (radius * (x+y)/2);
 		this.curPop = totalPop / 2;
 	}
 
@@ -107,7 +107,7 @@ public class Planet extends BodyDef {
 		//draws the outline of the ship to be 10 pixels larger than the radius of planet
 		if (isSelected) {
 			sr.begin(ShapeType.Line);
-			sr.circle(x, y, radius + 10);
+			sr.circle(x, y, radius + 6);
 			sr.end();
 		}
 

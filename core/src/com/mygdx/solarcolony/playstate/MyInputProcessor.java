@@ -3,6 +3,7 @@ package com.mygdx.solarcolony.playstate;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.mygdx.solarcolony.entities.Planet;
+import javafx.scene.input.KeyCode;
 
 public class MyInputProcessor implements InputProcessor
 {

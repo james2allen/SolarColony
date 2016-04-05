@@ -36,14 +36,14 @@ public class GameWindow extends JFrame{
 
 
 
-        ImageIcon backgroundImg = new ImageIcon("desktop/src/resources/mainBG.png");
+        ImageIcon backgroundImg = new ImageIcon("desktop/src/resources/mainscreen.png");
         JLabel background = new JLabel();
         background.setIcon(backgroundImg);
 
         frame.add(add(background));
 
 
-
+Color buttonColor = new Color(0, 254, 167);
 
         
 
@@ -60,7 +60,10 @@ public class GameWindow extends JFrame{
 		// adding a "new game" button
 		frame.add(panel1);
 		JButton button1 = new JButton("New Game");
-
+		button1.setBackground(buttonColor);
+        //button1.setForeground(Color.WHITE);
+        button1.setOpaque(true);
+        button1.setBorderPainted(false);
 
 		button1.setBounds(290, 240, 200, 80);
 		panel1.add(button1);
@@ -122,8 +125,12 @@ public class GameWindow extends JFrame{
 		});
 
 		// adding a "load game" button
-		frame.add(panel1);
+		//frame.add(panel1);
 		JButton button2 = new JButton("Load Game");
+        button2.setBackground(buttonColor);
+        //button2.setForeground(Color.WHITE);
+        button2.setOpaque(true);
+        button2.setBorderPainted(false);
 		button2.setBounds(290, 340, 200, 80);
 		panel1.add(button2);
 		button2.addActionListener(new ActionListener(){
@@ -139,8 +146,12 @@ public class GameWindow extends JFrame{
 		});
 
 		//adding a "quit" button, prompting for user's confirmation then quit
-		frame.add(panel1);
+		//frame.add(panel1);
 		JButton button3 = new JButton("Quit");
+        button3.setBackground(buttonColor);
+        //button3.setForeground(Color.WHITE);
+        button3.setOpaque(true);
+        button3.setBorderPainted(false);
 		button3.setBounds(290, 440, 200, 80);
 		panel1.add(button3);
 		button3.addActionListener(new ActionListener(){

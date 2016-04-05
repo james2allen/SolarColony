@@ -14,6 +14,8 @@ import com.mygdx.solarcolony.entities.Ship;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.Random;
+
 
 public class Game implements ApplicationListener{
 	
@@ -28,7 +30,7 @@ public class Game implements ApplicationListener{
 
 	private World world;
 	private Box2DDebugRenderer b2dr;
-	private static int PPM = 25;
+	//private static int PPM = 25;
 	
 
 	private Planet[] planets;
@@ -51,8 +53,8 @@ public class Game implements ApplicationListener{
 		b2dr = new Box2DDebugRenderer();
 		
 		//create and translate camera and update it
-		cam = new OrthographicCamera(V_WIDTH/PPM, V_HEIGHT/PPM);
-		cam.setToOrtho(false, V_WIDTH/PPM, V_HEIGHT/PPM);
+		cam = new OrthographicCamera(V_WIDTH, V_HEIGHT);
+		cam.setToOrtho(false, V_WIDTH, V_HEIGHT);
 		cam.update();
 
 		//create and translate camera and update it
@@ -62,7 +64,7 @@ public class Game implements ApplicationListener{
 		
 		sr = new ShapeRenderer();
 		
-		int x = randInt(60,10), y = randInt(60,10);
+		//int x = randInt(1,99), y = randInt(1,99);
 		int faction = 1;
 		
 		/*
@@ -72,34 +74,59 @@ public class Game implements ApplicationListener{
 		 * 
 		 */
 		for(int i = 0; i< 9; i++) {
-			if (i != 0)
+			/*if (i != 0)
 				faction = 0;
 			if (i == 8)
 				faction = 2;
 
-			int radius = randInt(65, 17);
+			int radius = randInt(1, 15);
 
 			x += 50;
 			y += 50;
 
 			if (x >= 800 || x + radius >= 800) {
-				x = randInt(60, 10);
-				y += randInt(175, 50);
+				x = randInt(1, 10);
+				y += randInt(1, 50);
 			}
 			if (y >= 600)
 				y -= 150;
 			else if (y <= 0)
 				y += 100;
 
+            */
+
+            int x = randInt(1,799);         // Planet x-coordinate
+            int y = randInt(1,799);         // Planet y-coordinate
+            int radius = randInt(10, 50);            // Planet radius
+
+            // Check if the planets coordinates are out of bounds
+            while(true){
+                if ((x+radius)>=V_WIDTH || (x-radius)<=0){
+                    x = randInt(1,799);
+                }
+                else
+                    break;
+            }
+
+            // Check if Y coordinate of planet is out of bounds
+            while(true){
+                if ((y+radius)>=V_HEIGHT || (y-radius)<=0){
+                    y = randInt(1,799);
+                }
+                else
+                    break;
+            }
+            System.out.print(radius + "\n" );
 			float density = 1.0f;
 
+
 			//planet creation... will be moved into its own method
-			planets[i] = new Planet(x/PPM, y/PPM, radius/PPM, faction);
+			planets[i] = new Planet(x, y, radius, faction);
 
 			BodyDef planet = new BodyDef();
 
 			planet.type = BodyDef.BodyType.StaticBody;
-			planet.position.set(x/PPM,y/PPM);
+			planet.position.set(x,y);
 
 			if (i == 0)
 				System.out.println("Planet " + i + " x: " + planet.position.x+ " Y: " + planet.position.y);
@@ -107,7 +134,7 @@ public class Game implements ApplicationListener{
 			Body body = world.createBody(planet);
 
 			CircleShape shape = new CircleShape();
-			shape.setRadius(radius/PPM);
+			shape.setRadius(radius);
 
 			FixtureDef fixDef = new FixtureDef();
 
@@ -271,10 +298,14 @@ public class Game implements ApplicationListener{
 	 * function returns a random int using num & a range where the final int
 	 * can be the original num plus or minus 0 - range
 	 */
-	private int randInt(int num, int range){
-		int max = num+range,min = num-range;
-		return (int)(Math.random()*(max - min))+ min;
-	}
+    public int randInt(int min, int max){
+        if (min>=max){
+            throw new IllegalArgumentException("Max must be greater than min");
+        }
+        Random random = new Random();
+        int randomNum = random.nextInt((max-min)+1) + min;
+        return randomNum;
+    }
 	
 	@Override
 	public void dispose(){

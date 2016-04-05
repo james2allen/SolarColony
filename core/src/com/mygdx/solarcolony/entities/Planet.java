@@ -8,13 +8,13 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 
 public class Planet extends BodyDef {
-	private int x;
-	private int y;
-	private int radius;
-	private int faction;
-	private int totalPop;
-	private int curPop;
-	private boolean isSelected;
+	private int x;			// x-coordinate
+	private int y;			// y-coordinate
+	private int radius;			// Planet radius
+	private int faction;			// Player number
+	private int totalPop;			// Max population
+	private int curPop;			// Current population
+	private boolean isSelected;			// Planet selection
 
 	public Planet(int x, int y, int radius, int faction) {
 		this.isSelected = false;

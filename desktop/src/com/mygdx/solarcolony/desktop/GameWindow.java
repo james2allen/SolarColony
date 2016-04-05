@@ -34,22 +34,19 @@ public class GameWindow extends JFrame{
 	
 	public GameWindow() throws UnsupportedAudioFileException, LineUnavailableException, FileNotFoundException, IOException{
 
-        File picFile = new File("desktop/src/resources/mainBackground.png");
-        System.out.println(picFile.exists());
-        final BufferedImage myPicture = ImageIO.read(picFile);
 
-        JPanel pane = new JPanel(){
-            @Override
-            protected void paintComponent(Graphics g){
-                super.paintComponent(g);
-                g.drawImage(myPicture, 0, 0, null);
-            }
-        };
 
-        //JLabel picLable = new JLabel(new ImageIcon(myPicture));
-       // add(picLable);
+        ImageIcon backgroundImg = new ImageIcon("desktop/src/resources/mainBackground.png");
+        JLabel background = new JLabel();
+        background.setIcon(backgroundImg);
+        add(background);
+        frame.add(add(background));
 
-        //ImageIcon backgroundImg = new ImageIcon("desktop/src/resources/mainBackground.png");
+
+
+
+        
+
 
 		panel1.setLayout(null);
 		frame.setSize(800, 600);
@@ -59,9 +56,7 @@ public class GameWindow extends JFrame{
 		frame.setVisible(true);
 		effects.backgroundMusic();
 
-        frame.add(pane);
-        repaint();
-        //panel1.add(picLable);
+
 		// adding a "new game" button
 		frame.add(panel1);
 		JButton button1 = new JButton("New Game");
@@ -157,6 +152,8 @@ public class GameWindow extends JFrame{
 				}
 			}
 		});
+
+
 
 	}
 }

@@ -36,10 +36,10 @@ public class GameWindow extends JFrame{
 
 
 
-        ImageIcon backgroundImg = new ImageIcon("desktop/src/resources/mainBackground.png");
+        ImageIcon backgroundImg = new ImageIcon("desktop/src/resources/mainBG.png");
         JLabel background = new JLabel();
         background.setIcon(backgroundImg);
-        add(background);
+
         frame.add(add(background));
 
 
@@ -60,6 +60,8 @@ public class GameWindow extends JFrame{
 		// adding a "new game" button
 		frame.add(panel1);
 		JButton button1 = new JButton("New Game");
+
+
 		button1.setBounds(290, 240, 200, 80);
 		panel1.add(button1);
 		button1.addActionListener(new ActionListener(){

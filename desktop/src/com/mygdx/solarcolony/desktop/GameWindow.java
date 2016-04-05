@@ -1,22 +1,24 @@
 package com.mygdx.solarcolony.desktop;
 
+import java.awt.*;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.*;
 
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.mygdx.solarcolony.playstate.Game;
-import com.badlogic.gdx.InputProcessor;
 
 
 /**
@@ -30,7 +32,25 @@ public class GameWindow extends JFrame{
 	private LwjglApplicationConfiguration cfg = 
 			new LwjglApplicationConfiguration();
 	
-	public GameWindow() throws UnsupportedAudioFileException, LineUnavailableException, FileNotFoundException{
+	public GameWindow() throws UnsupportedAudioFileException, LineUnavailableException, FileNotFoundException, IOException{
+
+        File picFile = new File("desktop/src/resources/mainBackground.png");
+        System.out.println(picFile.exists());
+        final BufferedImage myPicture = ImageIO.read(picFile);
+
+        JPanel pane = new JPanel(){
+            @Override
+            protected void paintComponent(Graphics g){
+                super.paintComponent(g);
+                g.drawImage(myPicture, 0, 0, null);
+            }
+        };
+
+        //JLabel picLable = new JLabel(new ImageIcon(myPicture));
+       // add(picLable);
+
+        //ImageIcon backgroundImg = new ImageIcon("desktop/src/resources/mainBackground.png");
+
 		panel1.setLayout(null);
 		frame.setSize(800, 600);
 		frame.setLocationRelativeTo(null);      //positions the frame from start up in middle
@@ -39,6 +59,9 @@ public class GameWindow extends JFrame{
 		frame.setVisible(true);
 		effects.backgroundMusic();
 
+        frame.add(pane);
+        repaint();
+        //panel1.add(picLable);
 		// adding a "new game" button
 		frame.add(panel1);
 		JButton button1 = new JButton("New Game");

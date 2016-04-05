@@ -74,35 +74,14 @@ public class Game implements ApplicationListener{
 		 * 
 		 */
 		for(int i = 0; i< 9; i++) {
-			/*if (i != 0)
-				faction = 0;
-			if (i == 8)
-				faction = 2;
+            int x = randInt(1,V_WIDTH-1);         // Planet x-coordinate
+            int y = randInt(1,V_HEIGHT-1);         // Planet y-coordinate
+            int radius = randInt(10, 60);            // Planet radius
 
-			int radius = randInt(1, 15);
-
-			x += 50;
-			y += 50;
-
-			if (x >= 800 || x + radius >= 800) {
-				x = randInt(1, 10);
-				y += randInt(1, 50);
-			}
-			if (y >= 600)
-				y -= 150;
-			else if (y <= 0)
-				y += 100;
-
-            */
-
-            int x = randInt(1,799);         // Planet x-coordinate
-            int y = randInt(1,799);         // Planet y-coordinate
-            int radius = randInt(10, 50);            // Planet radius
-
-            // Check if the planets coordinates are out of bounds
+            // Check if X coordinate of planet is out of bounds
             while(true){
                 if ((x+radius)>=V_WIDTH || (x-radius)<=0){
-                    x = randInt(1,799);
+                    x = randInt(1,V_WIDTH-1);
                 }
                 else
                     break;
@@ -111,12 +90,12 @@ public class Game implements ApplicationListener{
             // Check if Y coordinate of planet is out of bounds
             while(true){
                 if ((y+radius)>=V_HEIGHT || (y-radius)<=0){
-                    y = randInt(1,799);
+                    y = randInt(1,V_HEIGHT-1);
                 }
                 else
                     break;
             }
-            System.out.print(radius + "\n" );
+
 			float density = 1.0f;
 
 
@@ -127,9 +106,6 @@ public class Game implements ApplicationListener{
 
 			planet.type = BodyDef.BodyType.StaticBody;
 			planet.position.set(x,y);
-
-			if (i == 0)
-				System.out.println("Planet " + i + " x: " + planet.position.x+ " Y: " + planet.position.y);
 
 			Body body = world.createBody(planet);
 
@@ -300,7 +276,7 @@ public class Game implements ApplicationListener{
 	 */
     public int randInt(int min, int max){
         if (min>=max){
-            throw new IllegalArgumentException("Max must be greater than min");
+            throw new IllegalArgumentException("Max must be greater than min value");
         }
         Random random = new Random();
         int randomNum = random.nextInt((max-min)+1) + min;

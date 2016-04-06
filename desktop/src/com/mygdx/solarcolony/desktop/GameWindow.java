@@ -37,7 +37,7 @@ public class GameWindow extends JFrame{
 
 
         ImageIcon backgroundImg = new ImageIcon("desktop/src/resources/mainscreen.png");
-        JLabel background = new JLabel();
+		JLabel background = new JLabel();
         background.setIcon(backgroundImg);
 
         frame.add(add(background));
@@ -45,9 +45,12 @@ public class GameWindow extends JFrame{
 
 Color buttonColor = new Color(0, 254, 167);
 
-        
+		//get the settings picture
+		ImageIcon settingsImg = new ImageIcon("desktop/src/resources/settings.png");
+		JLabel settingsBG = new JLabel();
+		settingsBG.setIcon(settingsImg);
 
-
+		frame2.add(add(settingsBG));
 		panel1.setLayout(null);
 		frame.setSize(800, 600);
 		frame.setLocationRelativeTo(null);      //positions the frame from start up in middle
@@ -71,14 +74,21 @@ Color buttonColor = new Color(0, 254, 167);
 
 			// New game button redirects to the Game Settings
 			public void actionPerformed(ActionEvent e){
+
+
+
+
 				frame.setVisible(false);                         // hide frame 1 for focus on game settings
 				frame2.setVisible(true);
 				frame2.setLocationRelativeTo(null);
 				frame2.setSize(800,600);
 				frame2.setLocationRelativeTo(null);
 				frame2.setResizable(false);
-				JLabel label1 = new JLabel ("Game Settings");
 				JPanel panel = new JPanel();
+
+
+
+
 
 				// add start game button to start the game play
 				JButton game = new JButton("Start Game");
@@ -116,8 +126,9 @@ Color buttonColor = new Color(0, 254, 167);
 				});
 
 				// adding buttons onto the panel to display
+
 				frame2.add(panel);
-				panel.add(label1);
+				//panel.add(label1);
 				panel.add(game);
 				panel.add(back);
 

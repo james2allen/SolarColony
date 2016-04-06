@@ -13,6 +13,7 @@ import com.mygdx.solarcolony.entities.Planet;
 import com.mygdx.solarcolony.entities.Ship;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.Input.Keys;
 
 import java.util.Random;
 
@@ -239,13 +240,17 @@ public class Game implements ApplicationListener{
 
 		//render box2d debug cam
 		b2dr.render(world, cam.combined);
-
-        //planet drawing loop
-		for(int i = 0; i< 9; i++){
-			planets[i].draw(sr);
-			if(planets[i].getFac()!=0)
-				planets[i].updatePop();
+		boolean checkPause = false;
+		if(Gdx.input.isKeyPressed(Keys.A)){
+			Gdx.app.exit();
 		}
+		else {
+			//planet drawing loop
+			for (int i = 0; i < 9; i++) {
+				planets[i].draw(sr);
+				if (planets[i].getFac() != 0)
+					planets[i].updatePop();
+			}
 
         /*ship drawing loop commented out due to use of box2d renderer for now
 		for(int i=0; i<numShips; i++)
@@ -257,6 +262,7 @@ public class Game implements ApplicationListener{
                 shipRemove(i);
 
 		}*/
+		}
 	}
 
 	//function removes ship, does not account for box2d, must be fixed

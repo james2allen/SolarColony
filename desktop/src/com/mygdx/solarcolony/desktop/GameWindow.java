@@ -43,12 +43,17 @@ public class GameWindow extends JFrame{
         frame.add(add(background));
 
 
+
 Color buttonColor = new Color(0, 254, 167);
 
 		//get the settings picture
 		ImageIcon settingsImg = new ImageIcon("desktop/src/resources/settings.png");
 		JLabel settingsBG = new JLabel();
 		settingsBG.setIcon(settingsImg);
+
+
+
+
 
 		frame2.add(add(settingsBG));
 		panel1.setLayout(null);
@@ -92,6 +97,7 @@ Color buttonColor = new Color(0, 254, 167);
 
 				// add start game button to start the game play
 				JButton game = new JButton("Start Game");
+				game.setBounds(290, 240, 200, 80);
 				game.addActionListener(new ActionListener(){
 					// start game button will redirect to game screen
 					public void actionPerformed(ActionEvent e){
@@ -115,6 +121,7 @@ Color buttonColor = new Color(0, 254, 167);
 
 				// add back button to go back to main screen
 				JButton back = new JButton("Back");
+				back.setBounds(290, 240, 200, 80);
 				back.addActionListener(new ActionListener(){
 					// New game button redirects to the Game Settings
 					public void actionPerformed(ActionEvent e){
@@ -137,6 +144,8 @@ Color buttonColor = new Color(0, 254, 167);
 
 		// adding a "load game" button
 		//frame.add(panel1);
+
+		final JFrame secondF = new JFrame("Solar Colony");
 		JButton button2 = new JButton("Load Game");
         button2.setBackground(buttonColor);
         //button2.setForeground(Color.WHITE);
@@ -146,13 +155,26 @@ Color buttonColor = new Color(0, 254, 167);
 		panel1.add(button2);
 		button2.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				JFrame frame2 = new JFrame("Solar Colony");
-				frame2.setVisible(true);
-				frame2.setSize(800,600);
+				secondF.setVisible(true);
+				secondF.setSize(800,600);
 				JLabel label1 = new JLabel ("Loaded Game");
 				JPanel panel = new JPanel();
-				frame2.add(panel);
+				secondF.add(panel);
 				panel.add(label1);
+
+				//Add button for back
+				JButton back = new JButton("Back");
+				back.setBounds(290, 240, 200, 80);
+				panel.add(back);
+				back.addActionListener(new ActionListener(){
+					// New game button redirects to the Game Settings
+					public void actionPerformed(ActionEvent e){
+
+						// change visibility of the panels
+						frame.setVisible(true);
+						secondF.setVisible(false);
+					}
+				});
 			}
 		});
 

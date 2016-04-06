@@ -44,18 +44,18 @@ public class GameWindow extends JFrame{
 
 
 
-Color buttonColor = new Color(0, 254, 167);
+final Color buttonColor = new Color(0, 254, 167);
 
 		//get the settings picture
 		ImageIcon settingsImg = new ImageIcon("desktop/src/resources/settings.png");
-		JLabel settingsBG = new JLabel();
+		final JLabel settingsBG = new JLabel();
 		settingsBG.setIcon(settingsImg);
 
 
 
 
 
-		frame2.add(add(settingsBG));
+
 		panel1.setLayout(null);
 		frame.setSize(800, 600);
 		frame.setLocationRelativeTo(null);      //positions the frame from start up in middle
@@ -83,13 +83,16 @@ Color buttonColor = new Color(0, 254, 167);
 
 
 
-				frame.setVisible(false);                         // hide frame 1 for focus on game settings
+				frame.setVisible(false);// hide frame 1 for focus on game settings
+
+				frame2.add(add(settingsBG));
 				frame2.setVisible(true);
 				frame2.setLocationRelativeTo(null);
 				frame2.setSize(800,600);
 				frame2.setLocationRelativeTo(null);
 				frame2.setResizable(false);
 				JPanel panel = new JPanel();
+				panel.setLayout(null);
 
 
 
@@ -97,6 +100,11 @@ Color buttonColor = new Color(0, 254, 167);
 
 				// add start game button to start the game play
 				JButton game = new JButton("Start Game");
+				game.setBackground(buttonColor);
+				//button1.setForeground(Color.WHITE);
+				game.setOpaque(true);
+				game.setBorderPainted(false);
+
 				game.setBounds(290, 240, 200, 80);
 				game.addActionListener(new ActionListener(){
 					// start game button will redirect to game screen
@@ -121,7 +129,12 @@ Color buttonColor = new Color(0, 254, 167);
 
 				// add back button to go back to main screen
 				JButton back = new JButton("Back");
-				back.setBounds(290, 240, 200, 80);
+				back.setBackground(buttonColor);
+				//button2.setForeground(Color.WHITE);
+				back.setOpaque(true);
+				back.setBorderPainted(false);
+				back.setBounds(290, 340, 200, 80);
+
 				back.addActionListener(new ActionListener(){
 					// New game button redirects to the Game Settings
 					public void actionPerformed(ActionEvent e){

@@ -1,6 +1,7 @@
 package com.mygdx.solarcolony.entities;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -91,11 +92,11 @@ public class Planet extends BodyDef {
 	//planet drawing function, current not being used except for planet select outline
 	public void draw(ShapeRenderer sr) {
 		if (faction == 0) {
-			sr.setColor(1, 1, 1, 1);
+			sr.setColor(Color.LIGHT_GRAY);
 		} else if (faction == 1) {
-			sr.setColor(0, 1, 0, 1);
+			sr.setColor(Color.FOREST);
 		} else if (faction == 2) {
-			sr.setColor(1, 0, 0, 1);
+			sr.setColor(Color.MAROON);
 		} else if (faction == 3) {
 			sr.setColor(0, 1, 0, 1);
 		}

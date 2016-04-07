@@ -3,6 +3,7 @@ package com.mygdx.solarcolony.playstate;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -15,6 +16,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.Input.Keys;
 
+import java.util.Iterator;
 import java.util.Random;
 
 
@@ -99,6 +101,10 @@ public class Game implements ApplicationListener{
 
 			float density = 1.0f;
 
+			if(i > 0 && i < 8)
+				faction = 0;
+			else if(i == 8)
+				faction = 2;
 
 			//planet creation... will be moved into its own method
 			planets[i] = new Planet(x, y, radius, faction);
@@ -120,14 +126,19 @@ public class Game implements ApplicationListener{
 
 			body.createFixture(fixDef);
 
-
 			shape.dispose();
+
+			world.setContactListener(new ListenerClass(world, planets, ships));
 		}
 
 		//initialize mouse controls
 		inputProcessor = new MyInputProcessor();
 		inputProcessor.setPlanets(planets);
 		Gdx.input.setInputProcessor(inputProcessor);
+
+	}
+
+	public void removeShips(){
 
 	}
 	
@@ -141,7 +152,7 @@ public class Game implements ApplicationListener{
 
 			//launch ship towards those coords
 			shipLaunch(coords[0], coords[1]);
-			System.out.println(coords[0] + " "+ coords[1]);
+			//System.out.println(coords[0] + " "+ coords[1]);
 		}
 
 		world.step(dt, 6, 2);
@@ -157,7 +168,7 @@ public class Game implements ApplicationListener{
 		for(int i = 0; i < 9; i++)
 		{
 			//if there is a planet that is currently selected and they have enough pop to launch
-			if(planets[i].isSelected() && planets[i].getPop()-50 >= 100)
+			if(planets[i].isSelected() && planets[i].getPop()-75 >= 100)
 			{
 				//update ship population for launch
                 planets[i].shipPop();
@@ -190,8 +201,8 @@ public class Game implements ApplicationListener{
 			int dx = x - pLaunch.getX();
 			int dy = y - pLaunch.getY() ;
 
-			System.out.println("crosshair x:" + x + ", y: " + y);
-			System.out.println("ship x diff:" +dx + ", y diff: " + dy);
+			/*System.out.println("crosshair x:" + x + ", y: " + y);
+			System.out.println("ship x diff:" +dx + ", y diff: " + dy);*/
 
 			//get the magnitude of the vector
 			double mag = Math.pow(dx ,2) + Math.pow(dy,2);
@@ -219,6 +230,7 @@ public class Game implements ApplicationListener{
 			fixtureDef.shape = ship;
 
 			body.createFixture(ship, 0.0f);
+			body.setBullet(true);
 			body.setTransform(body.getPosition(), ships[numShips].getSpeed().angleRad());
 
 			ship.dispose();

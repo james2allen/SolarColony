@@ -27,7 +27,7 @@ public class Ship extends BodyDef {
 		this.dx = dx;
 		this.dy = dy;
 
-		System.out.println("ship1 dx:" +dx  + ", dy: " + dy);
+		//System.out.println("ship1 dx:" +dx  + ", dy: " + dy);
 
 		this.radDir = 0;
 		this.faction = faction;
@@ -38,7 +38,7 @@ public class Ship extends BodyDef {
 		vel = new Vector2((float)dx * this.speed, (float)dy * this.speed);
 
 
-		System.out.println("ship2 dx:" +dx * this.speed + ", dy: " + dy* this.speed);
+		//System.out.println("ship2 dx:" +dx * this.speed + ", dy: " + dy* this.speed);
 
 	}
 
@@ -66,9 +66,20 @@ public class Ship extends BodyDef {
 		}
 		
 		sr.begin(ShapeType.Filled);
-		sr.rect(x, y, 0,0, 2, 5,1.f,1.f, 45.f);
+		sr.rect(x, y, 0,0, 2, 5,1.f,1.f, vel.angle());
 		sr.end();
 		
+	}
+
+	public void setCoords(int x, int y)
+	{
+		this.x = x;
+		this.y = y;
+	}
+
+	public void setRotation()
+	{
+		//todo, update rotation
 	}
 
 	public int getX()

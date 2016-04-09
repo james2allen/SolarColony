@@ -4,20 +4,18 @@ package com.mygdx.solarcolony.playstate;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.mygdx.solarcolony.entities.Planet;
-import com.mygdx.solarcolony.entities.Ship;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.Input.Keys;
 
-import java.util.Iterator;
+import com.mygdx.solarcolony.entities.Planet;
+import com.mygdx.solarcolony.entities.Ship;
+import com.mygdx.solarcolony.entities.Entity;
+
 import java.util.Random;
 
 
@@ -42,6 +40,7 @@ public class Game implements ApplicationListener{
 	private int numShips;
 	private ShapeRenderer sr;
 	private MyInputProcessor inputProcessor;
+	private Texture bg;
 	
 	public SpriteBatch getSpriteBatch() {return sb;}
 	public OrthographicCamera getCamera() {return cam;}
@@ -68,6 +67,8 @@ public class Game implements ApplicationListener{
 		
 		sr = new ShapeRenderer();
 		sb = new SpriteBatch();
+
+		bg = new Texture("desktop/src/resources/pixel_space.png");
 		
 		//int x = randInt(1,99), y = randInt(1,99);
 		int faction = 1;
@@ -110,6 +111,7 @@ public class Game implements ApplicationListener{
 
 			//planet creation... will be moved into its own method
 			planets[i] = new Planet(x, y, radius, faction);
+			Entity e = new Entity(0, faction, i);
 
 			BodyDef planet = new BodyDef();
 
@@ -117,6 +119,8 @@ public class Game implements ApplicationListener{
 			planet.position.set(x,y);
 
 			Body body = world.createBody(planet);
+
+			body.setUserData(e);
 
 			CircleShape shape = new CircleShape();
 			shape.setRadius(radius);
@@ -214,14 +218,20 @@ public class Game implements ApplicationListener{
 			double vx = dx/mag;
 			double vy = dy/mag;
 
+			int faction = pLaunch.getFac();
+
 			//create new ship
-			ships[numShips] = new Ship(pLaunch.getX(), pLaunch.getY(), vx, vy, pLaunch.getFac());
+
+			//CHANGE THIS, MAKE IT A LINKED LIST PLS
+			ships[numShips] = new Ship(pLaunch.getX(), pLaunch.getY(), vx, vy, faction);
 			ships[numShips].position.set((float) (pLaunch.getX()+(pLaunch.getRadius() * vx)),
 					(float) (pLaunch.getY()+ (pLaunch.getRadius() * vy)));
 
 
 			//ship init box2d, may move to own method
 			Body body = world.createBody(ships[numShips]);
+
+			Entity e = new Entity(1, faction, numShips);
 
 			body.setLinearVelocity(ships[numShips].getSpeed());
 
@@ -234,6 +244,7 @@ public class Game implements ApplicationListener{
 			body.createFixture(ship, 0.0f);
 			body.setBullet(true);
 			body.setTransform(body.getPosition(), ships[numShips].getSpeed().angleRad());
+			body.setUserData(e);
 
 			ship.dispose();
 
@@ -251,17 +262,22 @@ public class Game implements ApplicationListener{
 		//clear screen
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		Gdx.gl.glActiveTexture(GL20.GL_TEXTURE0);
-		Texture bg = new Texture("desktop/src/resources/pixel_space.png");
+
+		//draw the background of game
 		sb.begin();
 		sb.draw(bg ,0,0);
 		sb.end();
 
 		//render box2d debug cam
 		b2dr.render(world, cam.combined);
+
 		boolean checkPause = false;
+
+		//check if game should exit
 		if(Gdx.input.isKeyPressed(Keys.A)){
 			Gdx.app.exit();
 		}
+
 		else {
 			//planet drawing loop
 			for (int i = 0; i < 9; i++) {
@@ -270,16 +286,15 @@ public class Game implements ApplicationListener{
 					planets[i].updatePop();
 			}
 
-        /*ship drawing loop commented out due to use of box2d renderer for now
-		for(int i=0; i<numShips; i++)
-		{
-			ships[i].draw(sr);
-			//ships[i].shipMove();
-			if(ships[i].getX() < 0 || ships[i].getX() > V_WIDTH ||
-                    ships[i].getY() < 0 || ships[i].getY() > V_HEIGHT)
-                shipRemove(i);
+			//ship drawing loop commented out due to use of box2d renderer for now
+			for(int i=0; i<numShips; i++) {
 
-		}*/
+				ships[i].draw(sr);
+				//ships[i].shipMove();
+				/*if(ships[i].getX() < 0 || ships[i].getX() > V_WIDTH ||
+						ships[i].getY() < 0 || ships[i].getY() > V_HEIGHT)
+					shipRemove(i);*/
+			}
 		}
 	}
 

@@ -4,12 +4,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.World;
 
 import static com.badlogic.gdx.physics.box2d.BodyDef.BodyType.DynamicBody;
 
 public class Ship extends BodyDef {
-	protected int faction;
+	private int faction;
 
 	private int x;
 	private int y;
@@ -17,7 +16,7 @@ public class Ship extends BodyDef {
 	private double dx;
 	private double dy;
 
-	protected float radDir;
+	private float radDir;
 
 	private Vector2 vel;
 
@@ -91,4 +90,6 @@ public class Ship extends BodyDef {
 	{
 		return this.y;
 	}
+
+
 }
